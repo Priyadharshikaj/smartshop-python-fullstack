@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Admin | SmartShop{% endblock %}
+{% block content %}
+<div class="section-title">
+    <div><p class="eyebrow">ADMIN PANEL</p><h1>Store Management</h1></div>
+</div>
+
+<div class="admin-grid">
+    <section class="panel">
+        <h2>Add New Product</h2>
+        <form method="POST" action="{{ url_for('main.admin_add_product') }}">
+            <label>Product Name</label>
+            <input name="name" required>
+            <label>Category</label>
+            <input name="category" placeholder="Electronics" required>
+            <label>Price (₹)</label>
+            <input type="number" name="price" min="0" step="0.01" required>
+            <label>Stock</label>
+            <input type="number" name="stock" min="0" required>
+            <label>Image URL</label>
+            <input name="image_url" placeholder="https://..." required>
+            <label>Description</label>
+            <textarea name="description" required></textarea>
+            <button class="primary-btn full">Add Product</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Products</h2>
+        <div class="admin-table">
+            {% for product in products %}
+            <div class="table-row">
+                <span><strong>{{ product.name }}</strong><small>{{ product.category }}</small></span>
+                <span>₹{{ "%.0f"|format(product.price) }}</span>
+                <span>{{ product.stock }} stock</span>
+                <form method="POST" action="{{ url_for('main.admin_delete_product', product_id=product.id) }}">
+                    <button class="danger-btn">Delete</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<section class="panel">
+    <h2>Recent Orders</h2>
+    <div class="admin-table">
+        {% for order in orders %}
+        <div class="table-row">
+            <span><strong>#{{ order.id }}</strong><small>{{ order.user.name }}</small></span>
+            <span>₹{{ "%.2f"|format(order.total) }}</span>
+            <span>{{ order.status }}</span>
+            <span>{{ order.created_at.strftime("%d %b %Y") }}</span>
+        </div>
+        {% else %}
+        <p>No orders yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

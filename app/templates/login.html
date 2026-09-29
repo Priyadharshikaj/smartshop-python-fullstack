@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login | SmartShop{% endblock %}
+{% block content %}
+<div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p>Login to continue shopping.</p>
+    <form method="POST">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="demo@gmail.com" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="demo123" required>
+        <button class="primary-btn full">Login</button>
+    </form>
+    <div class="demo-box">
+        <strong>Demo customer:</strong><br>
+        demo@gmail.com / demo123
+    </div>
+    <p>New user? <a href="{{ url_for('main.register') }}">Create an account</a></p>
+</div>
+{% endblock %}

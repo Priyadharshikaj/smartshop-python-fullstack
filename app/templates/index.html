@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}SmartShop | Home{% endblock %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">PYTHON FULL STACK PROJECT</p>
+        <h1>Everything you need, in one SmartShop.</h1>
+        <p>Explore products, add them to your cart, and place a demo order.</p>
+        <a class="primary-btn" href="#products">Shop Now</a>
+    </div>
+    <div class="hero-card">🛒<br><span>Simple • Secure • Smart</span></div>
+</section>
+
+<form class="filters" method="GET">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search products...">
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+            <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+        {% endfor %}
+    </select>
+    <button class="primary-btn" type="submit">Search</button>
+    <a class="secondary-btn" href="{{ url_for('main.index') }}">Clear</a>
+</form>
+
+<section id="products">
+    <div class="section-title">
+        <h2>Featured Products</h2>
+        <span>{{ products|length }} products</span>
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <article class="product-card">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            <div class="product-content">
+                <span class="category">{{ product.category }}</span>
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="product-bottom">
+                    <strong>₹{{ "%.2f"|format(product.price) }}</strong>
+                    <span class="stock">{{ product.stock }} left</span>
+                </div>
+                <form method="POST" action="{{ url_for('main.add_to_cart', product_id=product.id) }}">
+                    <button class="primary-btn full" {% if product.stock == 0 %}disabled{% endif %}>
+                        Add to Cart
+                    </button>
+                </form>
+            </div>
+        </article>
+        {% else %}
+            <div class="empty">No products found.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

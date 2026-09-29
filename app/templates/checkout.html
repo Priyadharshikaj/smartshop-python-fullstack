@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Checkout | SmartShop{% endblock %}
+{% block content %}
+<div class="section-title"><h1>Checkout</h1></div>
+<div class="checkout-grid">
+    <section class="panel">
+        <h2>Delivery Details</h2>
+        <label>Full Name</label>
+        <input value="{{ current_user.name }}" readonly>
+        <label>Email</label>
+        <input value="{{ current_user.email }}" readonly>
+        <label>Address</label>
+        <textarea placeholder="Demo address" required>Chennai, Tamil Nadu, India</textarea>
+        <label>Payment Method</label>
+        <input value="Cash on Delivery (Demo)" readonly>
+        <p class="note">This educational project does not process real payments.</p>
+    </section>
+
+    <aside class="summary">
+        <h2>Your Order</h2>
+        {% for item in items %}
+            <div><span>{{ item.name }} × {{ item.quantity }}</span><strong>₹{{ "%.2f"|format(item.subtotal) }}</strong></div>
+        {% endfor %}
+        <hr>
+        <div class="grand"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+        <form method="POST">
+            <button class="primary-btn full">Place Demo Order</button>
+        </form>
+    </aside>
+</div>
+{% endblock %}

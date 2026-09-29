@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Cart | SmartShop{% endblock %}
+{% block content %}
+<div class="section-title">
+    <h1>Shopping Cart</h1>
+    <span>{{ items|length }} product types</span>
+</div>
+
+{% if items %}
+<div class="cart-layout">
+    <div class="cart-list">
+        {% for item in items %}
+        <div class="cart-item">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <div class="cart-info">
+                <h3>{{ item.name }}</h3>
+                <p>₹{{ "%.2f"|format(item.price) }} each</p>
+                <form method="POST" action="{{ url_for('main.update_cart', product_id=item.id) }}" class="quantity-form">
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                    <button class="secondary-btn">Update</button>
+                </form>
+            </div>
+            <div class="cart-price">
+                <strong>₹{{ "%.2f"|format(item.subtotal) }}</strong>
+                <form method="POST" action="{{ url_for('main.remove_from_cart', product_id=item.id) }}">
+                    <button class="link-danger">Remove</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <aside class="summary">
+        <h2>Order Summary</h2>
+        <div><span>Subtotal</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+        <div><span>Delivery</span><strong>FREE</strong></div>
+        <hr>
+        <div class="grand"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+        <a class="primary-btn full center" href="{{ url_for('main.checkout') }}">Proceed to Checkout</a>
+    </aside>
+</div>
+{% else %}
+<div class="empty large">
+    <div>🛒</div>
+    <h2>Your cart is empty</h2>
+    <p>Add a product to continue.</p>
+    <a class="primary-btn" href="{{ url_for('main.index') }}">Browse Products</a>
+</div>
+{% endif %}
+{% endblock %}

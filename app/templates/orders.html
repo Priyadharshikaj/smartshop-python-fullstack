@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My Orders | SmartShop{% endblock %}
+{% block content %}
+<div class="section-title"><h1>My Orders</h1></div>
+{% for order in orders %}
+<div class="order-card">
+    <div class="order-head">
+        <div><strong>Order #{{ order.id }}</strong><span>{{ order.created_at.strftime("%d %b %Y, %I:%M %p") }}</span></div>
+        <span class="status">{{ order.status }}</span>
+    </div>
+    <div class="order-items">
+        {% for item in order.items %}
+        <div><span>{{ item.product_name }} × {{ item.quantity }}</span><strong>₹{{ "%.2f"|format(item.price * item.quantity) }}</strong></div>
+        {% endfor %}
+    </div>
+    <div class="order-total"><span>Payment: {{ order.payment_method }}</span><strong>Total: ₹{{ "%.2f"|format(order.total) }}</strong></div>
+</div>
+{% else %}
+<div class="empty large"><h2>No orders yet</h2><p>Your placed orders will appear here.</p></div>
+{% endfor %}
+{% endblock %}
