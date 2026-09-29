@@ -114,7 +114,7 @@ The admin can add and delete products.
 
 The project uses SQLite by default so that you can run it without MySQL configuration.
 
-If your institute requires MySQL, create a database:
+If requires MySQL, create a database:
 
 ```sql
 CREATE DATABASE smartshop;
@@ -188,7 +188,7 @@ If your MySQL password contains characters such as `@`, URL-encoding may be requ
 13. Explain the database and API.
 14. Show the project folder and code.
 
-## 11. Technologies to mention in your viva
+## 11. Technologies 
 
 Frontend:
 - HTML
